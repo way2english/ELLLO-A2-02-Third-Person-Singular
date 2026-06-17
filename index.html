@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Way2English — A2-02 Present Simple (3rd Person)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#4361ee; --violet:#7c3aed; --teal:#0d9488;
+  --green:#16a34a; --red:#dc2626;
+  --bg:#f8fafc; --card:#ffffff; --text:#1e293b; --muted:#64748b; --border:#e2e8f0;
+  --shadow:0 4px 24px rgba(67,97,238,.10); --radius:16px;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0; font-family:'Plus Jakarta Sans',sans-serif; background:var(--bg); color:var(--text);
+  padding-bottom:90px;
+}
+.hero{
+  background:linear-gradient(135deg,#1e3a8a 0%,#4361ee 55%,#7c3aed 100%);
+  color:#fff; padding:32px 20px 28px; text-align:center;
+}
+.hero h1{ margin:0 0 6px; font-size:24px; font-weight:800; }
+.hero p{ margin:0; opacity:.9; font-size:14px; }
+
+.stepper{
+  display:flex; overflow-x:auto; gap:8px; padding:14px 12px; background:#fff;
+  border-bottom:1px solid var(--border); position:sticky; top:0; z-index:50;
+  -webkit-overflow-scrolling:touch;
+}
+.step-btn{
+  flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:4px;
+  background:var(--bg); border:1px solid var(--border); border-radius:12px;
+  padding:8px 12px; cursor:pointer; font-family:inherit; font-size:11px; color:var(--muted);
+  font-weight:600; min-width:64px; transition:.2s;
+}
+.step-btn .ic{ font-size:18px; }
+.step-btn.active{ background:var(--blue); color:#fff; border-color:var(--blue); }
+.step-btn.done{ background:#dcfce7; border-color:var(--green); color:var(--green); }
+.step-btn.done.active{ background:var(--green); color:#fff; }
+
+.container{ max-width:760px; margin:0 auto; padding:18px 14px; }
+.step-panel{ display:none; }
+.step-panel.active{ display:block; animation:fadeUp .35s ease both; }
+@keyframes fadeUp{ from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:none;} }
+
+.card{
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:18px; margin-bottom:16px;
+}
+.card h2{ margin:0 0 12px; font-size:18px; font-weight:800; }
+.card h3{ margin:0 0 10px; font-size:15px; font-weight:700; color:var(--violet); }
+
+.nav-row{ display:flex; justify-content:space-between; gap:10px; margin-top:8px; }
+.nav-btn{
+  flex:1; padding:12px; border-radius:12px; border:none; font-weight:700; font-size:14px;
+  cursor:pointer; font-family:inherit; background:var(--blue); color:#fff;
+}
+.nav-btn.secondary{ background:var(--bg); color:var(--text); border:1px solid var(--border); }
+
+.vimeo-wrap{ position:relative; padding-bottom:56.25%; height:0; border-radius:14px; overflow:hidden; margin-bottom:16px; }
+.vimeo-wrap iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+
+.conv-list{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.conv-list div{
+  background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:10px 12px;
+  font-size:13px; font-weight:600;
+}
+
+.vocab-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+.vocab-item{
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:10px 12px;
+}
+.vocab-word{ font-weight:700; font-size:14px; flex:1; }
+.vocab-ua{ font-size:12px; color:var(--muted); margin-top:3px; font-weight:500; }
+.speak-btn{
+  background:var(--blue); color:#fff; border:none; border-radius:8px; width:34px; height:34px;
+  font-size:16px; cursor:pointer; flex:0 0 auto;
+}
+.listen-all-btn{
+  display:block; width:100%; padding:12px; border-radius:12px; border:none;
+  background:var(--violet); color:#fff; font-weight:700; font-size:14px; cursor:pointer; font-family:inherit;
+  margin-bottom:6px;
+}
+
+.conv-img{ display:block; width:100%; border-radius:12px; margin-bottom:12px; }
+audio{ display:block; width:100%; margin-bottom:16px; }
+
+.quiz-q{ margin-bottom:16px; }
+.quiz-q p{ font-weight:700; margin:0 0 8px; font-size:14px; }
+.quiz-opt{
+  display:block; width:100%; text-align:left; padding:10px 14px; margin-bottom:6px;
+  border:1px solid var(--border); border-radius:10px; background:#fff; cursor:pointer;
+  font-family:inherit; font-size:13px; color:var(--text); transition:.15s;
+}
+.quiz-opt:hover:not(:disabled){ border-color:var(--blue); }
+.quiz-opt.correct{ background:#dcfce7; border-color:var(--green); color:#166534; font-weight:700; }
+.quiz-opt.wrong{ background:#fee2e2; border-color:var(--red); color:#991b1b; }
+.quiz-opt:disabled{ cursor:default; }
+.quiz-result{ margin-top:8px; padding:10px 14px; border-radius:10px; font-weight:800; font-size:14px; text-align:center; }
+.quiz-result.pass{ background:#dcfce7; color:#166534; }
+.quiz-result.fail{ background:#fef9c3; color:#854d0e; }
+
+.pzl-line{ font-size:14px; line-height:2.4; margin-bottom:6px; }
+.pzl-sel{
+  font-family:inherit; font-size:13px; padding:4px 8px; border-radius:8px; border:1px solid var(--border);
+  background:#fff; color:var(--text); margin:0 3px;
+}
+.pzl-sel.correct{ border-color:var(--green); background:#dcfce7; color:#166534; font-weight:700; }
+.pzl-sel.wrong{ border-color:var(--red); background:#fee2e2; color:#991b1b; }
+.pzl-audio-label{ font-size:12px; color:var(--muted); font-style:italic; margin:14px 0 6px; }
+.check-btn{
+  padding:10px 18px; border-radius:10px; border:none; background:var(--teal); color:#fff;
+  font-weight:700; font-size:14px; cursor:pointer; font-family:inherit; margin-top:6px;
+}
+.pzl-score{ margin-top:8px; font-weight:800; font-size:14px; color:var(--violet); }
+
+.car-slide{ display:none; }
+.car-slide.active{ display:block; animation:fadeUp .3s ease both; }
+.reading-conv{ font-size:15px; line-height:2; }
+.reading-speaker{ font-weight:800; color:var(--blue); }
+.reading-line{ margin-bottom:4px; }
+.hint-box{
+  background:#eef2ff; border:1px dashed var(--blue); border-radius:10px; padding:10px 14px;
+  font-size:13px; color:var(--blue); font-weight:600; margin-bottom:14px; text-align:center;
+}
+.car-nav{ display:flex; align-items:center; justify-content:space-between; margin-top:14px; }
+.car-nav button{
+  padding:10px 16px; border-radius:10px; border:1px solid var(--border); background:#fff;
+  font-weight:700; font-size:13px; cursor:pointer; font-family:inherit;
+}
+.car-nav button:disabled{ opacity:.4; cursor:default; }
+.car-counter{ font-weight:800; color:var(--muted); font-size:13px; }
+
+.fc-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.fc-card{ position:relative; height:130px; cursor:pointer; perspective:1000px; }
+.fc-inner{ position:relative; width:100%; height:100%; transition:transform .5s; transform-style:preserve-3d; }
+.fc-card.flipped .fc-inner{ transform:rotateY(180deg); }
+.fc-front,.fc-back{
+  position:absolute; inset:0; border-radius:12px; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center; padding:10px; backface-visibility:hidden;
+  font-size:13px; font-weight:700;
+}
+.fc-front{ background:linear-gradient(135deg,#1e3a8a,#4361ee,#7c3aed); color:#fff; }
+.fc-front .hint{ font-size:11px; font-weight:500; opacity:.85; margin-top:6px; }
+.fc-back{ background:#fff; border:1px solid var(--border); color:var(--text); transform:rotateY(180deg); }
+.flip-all-btn{
+  display:block; width:100%; padding:12px; border-radius:12px; border:none;
+  background:var(--blue); color:#fff; font-weight:700; font-size:14px; cursor:pointer; font-family:inherit;
+  margin-bottom:14px;
+}
+
+.sp-line{ font-size:14px; line-height:2; margin-bottom:6px; }
+.sp-role{ font-weight:800; color:var(--violet); margin-right:6px; }
+.sp-blank{ display:inline-block; width:260px; border-bottom:2px dashed var(--violet); color:var(--muted); font-size:13px; font-style:italic; }
+.sp-interview-note{ font-size:12px; color:var(--muted); font-style:italic; text-align:center; margin-bottom:16px; }
+
+.results-fab{
+  position:fixed; bottom:18px; right:18px; background:var(--violet); color:#fff; border:none;
+  border-radius:30px; padding:14px 18px; font-weight:800; font-size:14px; cursor:pointer;
+  box-shadow:0 6px 20px rgba(124,58,237,.4); z-index:100; font-family:inherit;
+}
+.modal-overlay{
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,.55); z-index:200;
+  align-items:center; justify-content:center; padding:16px;
+}
+.modal-overlay.open{ display:flex; }
+.modal-box{
+  background:#fff; border-radius:16px; padding:22px; max-width:420px; width:100%;
+  max-height:85vh; overflow-y:auto;
+}
+.modal-box h2{ margin-top:0; }
+.modal-box table{ width:100%; border-collapse:collapse; font-size:14px; margin-bottom:12px; }
+.modal-box td{ padding:6px 4px; border-bottom:1px solid var(--border); }
+.modal-total{ text-align:center; font-size:20px; font-weight:800; margin:10px 0 14px; }
+.modal-box textarea{
+  width:100%; height:160px; font-family:'JetBrains Mono',monospace; font-size:12px;
+  border:1px solid var(--border); border-radius:10px; padding:10px; resize:vertical;
+}
+.modal-close{
+  margin-top:12px; width:100%; padding:12px; border-radius:10px; border:none;
+  background:var(--bg); border:1px solid var(--border); font-weight:700; cursor:pointer; font-family:inherit;
+}
+.copy-btn{
+  margin-top:8px; width:100%; padding:12px; border-radius:10px; border:none;
+  background:var(--teal); color:#fff; font-weight:700; cursor:pointer; font-family:inherit;
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Way2English — A2-02</h1>
+  <p>Present Simple — третя особа однини (he/she/it)</p>
+</div>
+
+<div class="stepper" id="stepper"></div>
+
+<div class="container">
+
+  <!-- STEP 0: WATCH -->
+  <div class="step-panel active" id="panel-0">
+    <div class="card">
+      <h2>🎬 Watch</h2>
+      <div class="vimeo-wrap">
+        <iframe src="https://player.vimeo.com/video/950450442" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <h3>У цьому відео 4 розмови:</h3>
+      <div class="conv-list">
+        <div>1️⃣ Батьки (Dad / Mother)</div>
+        <div>2️⃣ Сестра (Sister)</div>
+        <div>3️⃣ Мама і фітнес (Mother)</div>
+        <div>4️⃣ Мовний додаток (App)</div>
+      </div>
+      <div class="nav-row">
+        <button class="nav-btn" onclick="goStep(1)">Далі →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 1: СЛОВА -->
+  <div class="step-panel" id="panel-1">
+    <div class="card">
+      <h2>📚 Слова</h2>
+      <button class="listen-all-btn" onclick="listenAll()">🔊 Послухати всі слова</button>
+      <div class="vocab-grid" id="vocabGrid"></div>
+      <div class="nav-row">
+        <button class="nav-btn secondary" onclick="goStep(0)">← Назад</button>
+        <button class="nav-btn" onclick="goStep(2)">Далі →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEPS 2-5: CONVERSATIONS (generated by JS) -->
+  <div class="step-panel" id="panel-2"></div>
+  <div class="step-panel" id="panel-3"></div>
+  <div class="step-panel" id="panel-4"></div>
+  <div class="step-panel" id="panel-5"></div>
+
+  <!-- STEP 6: ПАЗЛ -->
+  <div class="step-panel" id="panel-6">
+    <div class="card">
+      <h2>🧩 Пазл</h2>
+      <p style="font-size:13px;color:var(--muted);margin-top:-4px;">Обери правильне слово з випадаючого списку для кожної розмови.</p>
+    </div>
+    <div id="puzzleContainer"></div>
+    <div class="card">
+      <div class="nav-row">
+        <button class="nav-btn secondary" onclick="goStep(5)">← Назад</button>
+        <button class="nav-btn" onclick="goStep(7)">Далі →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 7: ЧИТАННЯ -->
+  <div class="step-panel" id="panel-7">
+    <div class="card">
+      <h2>📖 Читання</h2>
+      <div class="hint-box">🇺🇦 Прочитай репліку англійською та переклади усно</div>
+      <div id="readingSlides"></div>
+      <div class="car-nav">
+        <button id="rprev" onclick="carNav('r',-1)" disabled>← Назад</button>
+        <span class="car-counter" id="rcounter">1 / 4</span>
+        <button id="rnext" onclick="carNav('r',1)">Далі →</button>
+      </div>
+      <div class="nav-row">
+        <button class="nav-btn secondary" onclick="goStep(6)">← Крок 6</button>
+        <button class="nav-btn" onclick="goStep(8)">Крок 9 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 8: КАРТКИ -->
+  <div class="step-panel" id="panel-8">
+    <div class="card">
+      <h2>🃏 Картки</h2>
+      <button class="flip-all-btn" onclick="flipAll()">🔄 Перевернути всі</button>
+      <div class="fc-grid" id="fcGrid"></div>
+      <div class="nav-row" style="margin-top:14px;">
+        <button class="nav-btn secondary" onclick="goStep(7)">← Назад</button>
+        <button class="nav-btn" onclick="goStep(9)">Далі →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 9: ГОВОРИМО -->
+  <div class="step-panel" id="panel-9">
+    <div class="card">
+      <h2>🗣️ Говоримо</h2>
+      <div id="speakingSlides"></div>
+      <div class="car-nav">
+        <button id="spprev" onclick="carNav('sp',-1)" disabled>← Назад</button>
+        <span class="car-counter" id="spcounter">1 / 4</span>
+        <button id="spnext" onclick="carNav('sp',1)">Далі →</button>
+      </div>
+      <div class="nav-row">
+        <button class="nav-btn secondary" onclick="goStep(8)">← Назад</button>
+        <button class="nav-btn" onclick="openResults()">📊 Подивитись результати</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FAB -->
+<button class="results-fab" onclick="openResults()">📊 Результати <span id="fabScore">0/0</span></button>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="resultsModal">
+  <div class="modal-box">
+    <h2>📊 Результати</h2>
+    <table><tbody id="resultsBody"></tbody></table>
+    <div class="modal-total" id="resultsTotal"></div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:4px;">Скопіюй звіт та надішли вчителю:</p>
+    <textarea id="resultsText" readonly></textarea>
+    <button class="copy-btn" onclick="copyResults()">📋 Скопіювати звіт</button>
+    <button class="modal-close" onclick="closeResults()">Закрити</button>
+  </div>
+</div>
+
+<script>
+/* ============ DATA ============ */
+
+const VOCAB = [
+  { en: 'construction', ua: 'будівництво' },
+  { en: 'build', ua: 'будувати' },
+  { en: 'clerk', ua: 'службовець' },
+  { en: 'City Hall', ua: 'мерія' },
+  { en: 'countryside', ua: 'сільська місцевість' },
+  { en: 'raise animals', ua: 'вирощувати тварин' },
+  { en: 'grow own food', ua: 'вирощувати власну їжу' },
+  { en: 'corn', ua: 'кукурудза' },
+  { en: 'beans', ua: 'квасоля' },
+  { en: 'stay so fit', ua: 'залишатися в такій гарній формі' },
+  { en: 'a lot', ua: 'багато' },
+  { en: 'She looks great.', ua: 'Вона виглядає чудово.' },
+  { en: 'follow', ua: 'дотримуватися' },
+  { en: 'language', ua: 'мова' },
+  { en: 'vocabulary app', ua: 'додаток для слів' },
+  { en: 'lots more', ua: 'набагато більше' },
+  { en: 'pronounce the word', ua: 'вимовляти слово' },
+  { en: 'example sentences', ua: 'приклади речень' },
+];
+
+const CONVS = [
+  {
+    title: 'Conversation 1 — Dad & Mother',
+    img: 'A2-02-1-Present-Simple-3rd-Person-Dad.jpg',
+    audio: 'A2-02-1-Present-Simple-3rd-Person-Dad.mp3',
+    fallback: 'https://elllo.org/Audio/SoundGrammar/A2-Audio4x/A2-02-1-Present-Simple-3rd-Person-Dad.mp3',
+    text: [
+      { role: 'Man', line: 'What does your dad do?' },
+      { role: 'Woman', line: 'He works in construction.' },
+      { role: 'Man', line: 'Oh, what does he do?' },
+      { role: 'Woman', line: 'He builds houses.' },
+      { role: 'Man', line: 'Nice, what about your mother?' },
+      { role: 'Woman', line: 'She works for the city.' },
+      { role: 'Man', line: 'What does she do?' },
+      { role: 'Woman', line: 'She is a clerk. She helps people at City Hall.' },
+    ],
+    questions: [
+      { q: 'What does the dad do?', opts: ['He teaches', 'He builds houses', 'He sells houses', 'He drives a bus'], ans: 1 },
+      { q: 'Who does the mother work for?', opts: ['a tech company', 'a school', 'the city', 'a gym'], ans: 2 },
+      { q: 'Where does the mother help people?', opts: ['City Hall', 'a hospital', 'a bank', 'a store'], ans: 0 },
+    ]
+  },
+  {
+    title: 'Conversation 2 — Sister',
+    img: 'A2-02-2-Present-Simple-3rd-Person-Sister.jpg',
+    audio: 'A2-02-2-Present-Simple-3rd-Person-Sister.mp3',
+    fallback: 'https://elllo.org/Audio/SoundGrammar/A2-Audio4x/A2-02-2-Present-Simple-3rd-Person-Sister.mp3',
+    text: [
+      { role: 'Man', line: 'Where does your sister live?' },
+      { role: 'Woman', line: 'She lives in the countryside.' },
+      { role: 'Man', line: 'Oh? What does she do?' },
+      { role: 'Woman', line: 'She has a farm and she raises animals.' },
+      { role: 'Man', line: 'What animals does she have on her farm?' },
+      { role: 'Woman', line: 'She has horses, cows and sheep.' },
+      { role: 'Man', line: "Wow, that's so cool!" },
+      { role: 'Woman', line: 'Yeah, she also grows her own food.' },
+      { role: 'Man', line: 'What food does she grow?' },
+      { role: 'Woman', line: 'She grows corn, beans, tomatoes and potatoes.' },
+    ],
+    questions: [
+      { q: 'Where does the sister live?', opts: ['downtown', 'the countryside', 'near the station', 'in an apartment'], ans: 1 },
+      { q: 'What animals does she have?', opts: ['only horses', 'horses, cows and sheep', 'only cows', 'chickens and pigs'], ans: 1 },
+      { q: 'What does she grow?', opts: ['only corn', 'corn, beans, tomatoes and potatoes', 'only vegetables', 'fruit trees'], ans: 1 },
+    ]
+  },
+  {
+    title: 'Conversation 3 — Mother stays fit',
+    img: 'A2-02-3-Present-Simple-3rd-Person-Mother.jpg',
+    audio: 'A2-02-3-Present-Simple-3rd-Person-Mother.mp3',
+    fallback: 'https://elllo.org/Audio/SoundGrammar/A2-Audio4x/A2-02-3-Present-Simple-3rd-Person-Mother.mp3',
+    text: [
+      { role: 'Man', line: 'How does your mother stay so fit?' },
+      { role: 'Woman', line: 'She works out a lot.' },
+      { role: 'Man', line: 'It shows. She looks great!' },
+      { role: 'Woman', line: 'She also watches what she eats.' },
+      { role: 'Man', line: 'Does she follow a special diet?' },
+      { role: 'Woman', line: "Yes. She doesn't eat sweets and she doesn't drink soda." },
+      { role: 'Man', line: 'What about your dad?' },
+      { role: 'Woman', line: 'Oh, he never works out.' },
+      { role: 'Man', line: 'Does he follow a healthy diet too?' },
+      { role: 'Woman', line: 'Not really. He eats sweets, and he loves ice cream.' },
+    ],
+    questions: [
+      { q: 'How does the mother stay fit?', opts: ['She does yoga', 'She works out a lot', 'She walks daily', 'She swims'], ans: 1 },
+      { q: "What doesn't she drink?", opts: ['water', 'coffee', 'soda', 'juice'], ans: 2 },
+      { q: 'Does the dad work out?', opts: ['Yes, a lot', 'No, never', 'Sometimes', 'Yes, every day'], ans: 1 },
+    ]
+  },
+  {
+    title: 'Conversation 4 — Language App',
+    img: 'A2-02-4-Will-Game.jpg',
+    audio: 'A2-02-4-Will-Game.mp3',
+    fallback: 'https://elllo.org/Audio/SoundGrammar/A2-Audio4x/A2-02-4-Will-Game.mp3',
+    text: [
+      { role: 'Man', line: 'How do you study language?' },
+      { role: 'Woman', line: 'I use an app on my phone.' },
+      { role: 'Man', line: 'What does the app do?' },
+      { role: 'Woman', line: 'It teaches vocabulary. It has over 20 languages.' },
+      { role: 'Man', line: 'Really? What languages does it teach?' },
+      { role: 'Woman', line: 'It teaches many languages. French, Spanish, Japanese, and lots more.' },
+      { role: 'Man', line: 'How does it work?' },
+      { role: 'Woman', line: 'Just type in a word in English, and it shows the translation.' },
+      { role: 'Man', line: 'That sounds pretty cool.' },
+      { role: 'Woman', line: 'It is. It also pronounces the words, and gives example sentences.' },
+      { role: 'Man', line: 'Nice! I want to try it.' },
+    ],
+    questions: [
+      { q: 'How does the woman study language?', opts: ['with a tutor', 'with an app', 'at school', 'with books'], ans: 1 },
+      { q: 'How many languages does the app teach?', opts: ['5', '10', 'over 20', '100'], ans: 2 },
+      { q: 'What does the app do besides translating?', opts: ['plays games', 'pronounces words', 'sends reminders', 'tracks progress'], ans: 1 },
+    ]
+  },
+];
+
+const PUZZLES = [
+  {
+    title: 'Conversation 1 — Dad & Mother',
+    audio: 'A2-02-1-Present-Simple-3rd-Person-Dad.mp3',
+    fallback: 'https://elllo.org/Audio/SoundGrammar/A2-Audio4x/A2-02-1-Present-Simple-3rd-Person-Dad.mp3',
+    bank: ['does','clerk','mother','dad','Hall','works','builds','city'],
+    lines: [
+      { pre: 'Man: What does your ', word: 'dad', post: ' do?' },
+      { pre: 'Woman: He ', word: 'works', post: ' in construction.' },
+      { pre: 'Man: Oh, what ', word: 'does', post: ' he do?' },
+      { pre: 'Woman: He ', word: 'builds', post: ' houses.' },
+      { pre: 'Man: Nice, what about your ', word: 'mother', post: '?' },
+      { pre: 'Woman: She works for the ', word: 'city', post: '.' },
+      { skip: true, pre: 'Man: What does she do?' },
+      { pre: 'Woman: She is a ', word: 'clerk', post: '. She helps people at City ', pre2: '', word2: 'Hall', post2: '.' },
+    ]
+  },
+  {
+    title: 'Conversation 2 — Sister',
+    audio: 'A2-02-2-Present-Simple-3rd-Person-Sister.mp3',
+    fallback: 'https://elllo.org/Audio/SoundGrammar/A2-Audio4x/A2-02-2-Present-Simple-3rd-Person-Sister.mp3',
+    bank: ['food','cows','raises','tomatoes','She','on','grows','do'],
+    lines: [
+      { skip: true, pre: 'Man: Where does your sister live?' },
+      { pre: 'Woman: ', word: 'She', post: ' lives in the countryside.' },
+      { pre: 'Man: Oh? What does she ', word: 'do', post: '?' },
+      { pre: 'Woman: She has a farm and she ', word: 'raises', post: ' animals.' },
+      { pre: 'Man: What animals does she have ', word: 'on', post: ' her farm?' },
+      { pre: 'Woman: She has horses, ', word: 'cows', post: ' and sheep.' },
+      { skip: true, pre: "Man: Wow, that's so cool!" },
+      { pre: 'Woman: Yeah, she also ', word: 'grows', post: ' her own food.' },
+      { pre: 'Man: What ', word: 'food', post: ' does she grow?' },
+      { pre: 'Woman: She grows corn, beans, ', word: 'tomatoes', post: ' and potatoes.' },
+    ]
+  },
+  {
+    title: 'Conversation 3 — Mother stays fit',
+    audio: 'A2-02-3-Present-Simple-3rd-Person-Mother.mp3',
+    fallback: 'https://elllo.org/Audio/SoundGrammar/A2-Audio4x/A2-02-3-Present-Simple-3rd-Person-Mother.mp3',
+    bank: ['shows','out','never','watches','drink','stay','special','loves'],
+    lines: [
+      { pre: 'Man: How does your mother ', word: 'stay', post: ' so fit?' },
+      { pre: 'Woman: She works ', word: 'out', post: ' a lot.' },
+      { pre: 'Man: It ', word: 'shows', post: '. She looks great!' },
+      { pre: 'Woman: She also ', word: 'watches', post: ' what she eats.' },
+      { pre: 'Man: Does she follow a ', word: 'special', post: ' diet?' },
+      { pre: "Woman: Yes. She doesn't eat sweets and she doesn't ", word: 'drink', post: ' soda.' },
+      { skip: true, pre: 'Man: What about your dad?' },
+      { pre: 'Woman: Oh, he ', word: 'never', post: ' works out.' },
+      { skip: true, pre: 'Man: Does he follow a healthy diet too?' },
+      { pre: 'Woman: Not really. He eats sweets, and he ', word: 'loves', post: ' ice cream.' },
+    ]
+  },
+  {
+    title: 'Conversation 4 — Language App',
+    audio: 'A2-02-4-Will-Game.mp3',
+    fallback: 'https://elllo.org/Audio/SoundGrammar/A2-Audio4x/A2-02-4-Will-Game.mp3',
+    bank: ['does','type','study','languages','pronounces','Japanese','phone','over'],
+    lines: [
+      { pre: 'Man: How do you ', word: 'study', post: ' language?' },
+      { pre: 'Woman: I use an app on my ', word: 'phone', post: '.' },
+      { pre: 'Man: What ', word: 'does', post: ' the app do?' },
+      { pre: 'Woman: It teaches vocabulary. It has ', word: 'over', post: ' 20 languages.' },
+      { pre: 'Man: Really? What ', word: 'languages', post: ' does it teach?' },
+      { pre: 'Woman: It teaches many languages. French, Spanish, ', word: 'Japanese', post: ', and lots more.' },
+      { skip: true, pre: 'Man: How does it work?' },
+      { pre: 'Woman: Just ', word: 'type', post: ' in a word in English, and it shows the translation.' },
+      { skip: true, pre: 'Man: That sounds pretty cool.' },
+      { pre: 'Woman: It is. It also ', word: 'pronounces', post: ' the words, and gives example sentences.' },
+    ]
+  },
+];
+
+const FLASHCARDS = [
+  { en: 'He builds houses.', ua: 'Він будує будинки.' },
+  { en: 'She helps people at City Hall.', ua: 'Вона допомагає людям у мерії.' },
+  { en: 'She raises animals.', ua: 'Вона вирощує тварин.' },
+  { en: 'She grows her own food.', ua: 'Вона вирощує власну їжу.' },
+  { en: 'She works out a lot.', ua: 'Вона багато тренується.' },
+  { en: 'She watches what she eats.', ua: 'Вона стежить за тим, що їсть.' },
+  { en: 'He never works out.', ua: 'Він ніколи не тренується.' },
+  { en: 'He loves ice cream.', ua: 'Він любить морозиво.' },
+  { en: 'I use an app on my phone.', ua: 'Я використовую додаток на телефоні.' },
+  { en: 'It has over 20 languages.', ua: 'У ньому більше 20 мов.' },
+  { en: 'It shows the translation.', ua: 'Він показує переклад.' },
+  { en: 'It gives example sentences.', ua: 'Він дає приклади речень.' },
+];
+
+const SPEAKING = [
+  {
+    title: 'Діалог 1 з 4',
+    interview: false,
+    lines: [
+      { role: 'Студент А', text: 'Чим займається твій батько?' },
+      { role: 'Студент Б', text: 'Він працює в будівництві. Він будує будинки.' },
+      { role: 'Студент А', text: 'А твоя мама?' },
+      { role: 'Студент Б', text: 'Вона працює в мерії, вона службовець.' },
+      { role: 'Студент А', text: 'Цікаво! А де працює твій брат?' },
+      { role: 'Студент Б', text: 'Він працює в технологічній компанії.' },
+      { role: 'Студент А', text: 'Подобається йому робота?' },
+      { role: 'Студент Б', text: 'Так, дуже подобається.' },
+    ]
+  },
+  {
+    title: 'Діалог 2 з 4',
+    interview: false,
+    lines: [
+      { role: 'Студент А', text: 'Де живе твоя сестра?' },
+      { role: 'Студент Б', text: 'Вона живе в селі, у неї ферма.' },
+      { role: 'Студент А', text: 'Яких тварин вона вирощує?' },
+      { role: 'Студент Б', text: 'У неї коні, корови та овечки.' },
+      { role: 'Студент А', text: 'А вона вирощує овочі?' },
+      { role: 'Студент Б', text: 'Так, вона вирощує кукурудзу і квасолю.' },
+      { role: 'Студент А', text: 'Це звучить чудово!' },
+      { role: 'Студент Б', text: 'Так, вона дуже любить це життя.' },
+    ]
+  },
+  {
+    title: 'Діалог 3 з 4',
+    interview: true,
+    note: '🎤 Студент А перекладає запитання англійською → Студент Б відповідає про себе',
+    lines: [
+      { role: 'Студент А', text: 'Чим займається твій батько чи мама?' },
+      { role: 'Студент Б', blank: true },
+      { role: 'Студент А', text: 'Чи живе хтось із твоїх родичів у селі?' },
+      { role: 'Студент Б', blank: true },
+      { role: 'Студент А', text: 'Чи тренується твоя мама або тато регулярно?' },
+      { role: 'Студент Б', blank: true },
+      { role: 'Студент А', text: 'Чи дотримується хтось у твоїй сім\u2019ї спеціальної дієти?' },
+      { role: 'Студент Б', blank: true },
+      { role: 'Студент А', text: 'Чи любить хтось із твоєї родини солодощі?' },
+      { role: 'Студент Б', blank: true },
+      { role: 'Студент А', text: 'Як ти вивчаєш англійську мову?' },
+      { role: 'Студент Б', blank: true },
+      { role: 'Студент А', text: 'Чи користуєшся ти додатками для вивчення мов?' },
+      { role: 'Студент Б', blank: true },
+      { role: 'Студент А', text: 'Скільки мов ти хотів(ла) би знати?' },
+      { role: 'Студент Б', blank: true },
+    ]
+  },
+  {
+    title: 'Діалог 4 з 4',
+    interview: true,
+    note: '🎤 Студент А перекладає запитання англійською → Студент Б відповідає про себе',
+    lines: [
+      { role: 'Студент А', text: 'Чи є у твоїй родині хтось, хто будує будинки?' },
+      { role: 'Студент Б', blank: true },
+      { role: 'Студент А', text: 'Чи вирощує хтось у твоїй сім\u2019ї власну їжу?' },
+      { role: 'Студент Б', blank: true },
+      { role: 'Студент А', text: 'Що зазвичай їсть твоя мама чи тато?' },
+      { role: 'Студент Б', blank: true },
+      { role: 'Студент А', text: 'Чи п\u2019є хтось у твоїй родині соду регулярно?' },
+      { role: 'Студент Б', blank: true },
+      { role: 'Студент А', text: 'Яка твоя улюблена мова, яку хотів(ла) би вивчити?' },
+      { role: 'Студент Б', blank: true },
+      { role: 'Студент А', text: 'Чи вмієш ти правильно вимовляти складні слова англійською?' },
+      { role: 'Студент Б', blank: true },
+      { role: 'Студент А', text: 'Чи допомагають тобі приклади речень при вивченні слів?' },
+      { role: 'Студент Б', blank: true },
+      { role: 'Студент А', text: 'Хто з твоєї родини найбільше тренується?' },
+      { role: 'Студент Б', blank: true },
+    ]
+  },
+];
+
+const STEPS = [
+  { icon: '🎬', label: 'Watch' },
+  { icon: '📚', label: 'Слова' },
+  { icon: '🎧', label: 'Розмова 1' },
+  { icon: '🎧', label: 'Розмова 2' },
+  { icon: '🎧', label: 'Розмова 3' },
+  { icon: '🎧', label: 'Розмова 4' },
+  { icon: '🧩', label: 'Пазл' },
+  { icon: '📖', label: 'Читання' },
+  { icon: '🃏', label: 'Картки' },
+  { icon: '🗣️', label: 'Говоримо' },
+];
+
+/* ============ STATE ============ */
+const correctMap = {};
+const quizAnswered = {};
+const quizScores = { q1: null, q2: null, q3: null, q4: null };
+const puzzleScores = { p1: null, p2: null, p3: null, p4: null };
+const carState = { r: 0, sp: 0 };
+
+/* ============ STEPPER ============ */
+function buildStepper() {
+  const el = document.getElementById('stepper');
+  let html = '';
+  STEPS.forEach((s, i) => {
+    html += '<button class="step-btn' + (i === 0 ? ' active' : '') + '" id="sbtn-' + i + '" onclick="goStep(' + i + ')">' +
+      '<span class="ic">' + s.icon + '</span><span>' + s.label + '</span></button>';
+  });
+  el.innerHTML = html;
+}
+
+function goStep(i) {
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + i).classList.add('active');
+  document.getElementById('sbtn-' + i).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function markDone(i) {
+  const b = document.getElementById('sbtn-' + i);
+  if (b) b.classList.add('done');
+}
+
+/* ============ SPEECH ============ */
+function speak(text) {
+  if (!window.speechSynthesis) return;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US'; u.rate = 0.85;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+let listenIdx = 0;
+function listenAll() { listenIdx = 0; speakNext(); }
+function speakNext() {
+  if (listenIdx >= VOCAB.length) return;
+  const u = new SpeechSynthesisUtterance(VOCAB[listenIdx].en);
+  u.lang = 'en-US'; u.rate = 0.82;
+  u.onend = () => { listenIdx++; setTimeout(speakNext, 400); };
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+/* ============ VOCAB GRID ============ */
+function buildVocab() {
+  let grid = '';
+  VOCAB.forEach(v => {
+    grid += '<div class="vocab-item">' +
+      '<div class="vocab-word">' + v.en +
+        '<div class="vocab-ua">' + v.ua + '</div>' +
+      '</div>' +
+      '<button class="speak-btn" onclick="speak(\'' + v.en.replace(/'/g, "\\'") + '\')">🔊</button>' +
+    '</div>';
+  });
+  document.getElementById('vocabGrid').innerHTML = grid;
+}
+
+/* ============ CONVERSATIONS ============ */
+function answerQuiz(qKey, qi, oi, ans, convIdx, btn) {
+  const ck = qKey + '-' + qi;
+  if (quizAnswered[ck]) return;
+  quizAnswered[ck] = true;
+  correctMap[ck] = (oi === ans);
+
+  const allOpts = btn.parentElement.querySelectorAll('.quiz-opt');
+  allOpts.forEach(b => b.disabled = true);
+  if (oi === ans) {
+    btn.classList.add('correct');
+  } else {
+    btn.classList.add('wrong');
+    allOpts[ans].classList.add('correct');
+  }
+
+  const total = CONVS[convIdx].questions.length;
+  const allDone = Array.from({ length: total }, (_, k) => !!quizAnswered[qKey + '-' + k]).every(Boolean);
+  if (allDone) {
+    let got = 0;
+    for (let k = 0; k < total; k++) { if (correctMap[qKey + '-' + k]) got++; }
+    quizScores[qKey] = { got, total };
+    updateFab();
+    markDone(convIdx + 2);
+    document.getElementById('qresult-' + convIdx).innerHTML =
+      '<div class="quiz-result ' + (got === total ? 'pass' : 'fail') + '">' +
+      (got === total ? '🏆' : '💪') + ' Результат: ' + got + '/' + total + '</div>';
+  }
+}
+
+function buildConvs() {
+  CONVS.forEach((c, i) => {
+    const qKey = 'q' + (i + 1);
+    let qHtml = '';
+    c.questions.forEach((q, qi) => {
+      let optsHtml = '';
+      q.opts.forEach((o, oi) => {
+        optsHtml += '<button class="quiz-opt" onclick="answerQuiz(\'' + qKey + '\',' + qi + ',' + oi + ',' + q.ans + ',' + i + ',this)">' + o + '</button>';
+      });
+      qHtml += '<div class="quiz-q"><p>' + (qi + 1) + '. ' + q.q + '</p>' + optsHtml + '</div>';
+    });
+
+    const html =
+      '<div class="card">' +
+        '<h2>🎧 ' + c.title + '</h2>' +
+        '<img class="conv-img" src="' + c.img + '" alt="' + c.title + '">' +
+        '<audio controls style="display:block;width:100%;margin-bottom:16px;">' +
+          '<source src="' + c.audio + '">' +
+          '<source src="' + c.fallback + '">' +
+        '</audio>' +
+        qHtml +
+        '<div id="qresult-' + i + '"></div>' +
+      '</div>' +
+      '<div class="card">' +
+        '<div class="nav-row">' +
+          '<button class="nav-btn secondary" onclick="goStep(' + (i + 1) + ')">← Назад</button>' +
+          '<button class="nav-btn" onclick="goStep(' + (i + 3 > 6 ? 6 : i + 3) + ')">Далі →</button>' +
+        '</div>' +
+      '</div>';
+    document.getElementById('panel-' + (i + 2)).innerHTML = html;
+  });
+}
+
+/* ============ PUZZLE ============ */
+function makeSel(word, pi, bank) {
+  const shuffled = [...bank].sort(() => Math.random() - 0.5);
+  let o = '<option value="">—</option>';
+  shuffled.forEach(w => { o += '<option value="' + w + '">' + w + '</option>'; });
+  return '<select class="pzl-sel" data-ans="' + word + '" data-pi="' + pi + '">' + o + '</select>';
+}
+
+function buildPuzzles() {
+  let pHtml = '';
+  PUZZLES.forEach((pz, pi) => {
+    let lh = '';
+    pz.lines.forEach(ln => {
+      if (ln.skip) {
+        lh += '<div class="pzl-line">' + ln.pre + '</div>';
+        return;
+      }
+      lh += '<div class="pzl-line">' + ln.pre + makeSel(ln.word, pi, pz.bank) + (ln.post || '');
+      if (ln.pre2 !== undefined) {
+        lh += ln.pre2 + makeSel(ln.word2, pi, pz.bank) + (ln.post2 || '');
+      }
+      lh += '</div>';
+    });
+
+    pHtml += '<div class="card" id="pzl-card-' + pi + '">' +
+      '<div style="font-weight:800;font-size:16px;margin-bottom:16px;">' + pz.title + '</div>' +
+      lh +
+      '<div class="pzl-audio-label">💡 Якщо треба — прослухай аудіо ще раз — ' + pz.title + '</div>' +
+      '<audio controls style="display:block;width:100%;">' +
+        '<source src="' + pz.audio + '">' +
+        '<source src="' + pz.fallback + '">' +
+      '</audio><br>' +
+      '<button class="check-btn" onclick="checkPuzzle(' + pi + ',\'p' + (pi + 1) + '\')">Перевірити</button>' +
+      '<div class="pzl-score" id="pzl-score-' + pi + '"></div>' +
+    '</div>';
+  });
+  document.getElementById('puzzleContainer').innerHTML = pHtml;
+}
+
+function checkPuzzle(pi, pKey) {
+  const card = document.getElementById('pzl-card-' + pi);
+  const sels = card.querySelectorAll('.pzl-sel[data-pi="' + pi + '"]');
+  let got = 0;
+  sels.forEach(sel => {
+    sel.classList.remove('correct', 'wrong');
+    if (sel.value === sel.dataset.ans) { sel.classList.add('correct'); got++; }
+    else sel.classList.add('wrong');
+  });
+  puzzleScores[pKey] = { got, total: sels.length };
+  updateFab();
+  markDone(6);
+  document.getElementById('pzl-score-' + pi).textContent = 'Результат: ' + got + '/' + sels.length;
+}
+
+/* ============ READING ============ */
+function buildReading() {
+  let rSlides = '';
+  CONVS.forEach((c, i) => {
+    let lines = c.text.map(l =>
+      '<div class="reading-line"><span class="reading-speaker">' + l.role + ':</span> ' + l.line + '</div>'
+    ).join('');
+    rSlides += '<div class="car-slide' + (i === 0 ? ' active' : '') + '" id="rslide-' + i + '">' +
+      '<div style="font-weight:800;margin-bottom:10px;color:var(--violet);">' + c.title + '</div>' +
+      '<div class="reading-conv">' + lines + '</div></div>';
+  });
+  document.getElementById('readingSlides').innerHTML = rSlides;
+}
+
+/* ============ FLASHCARDS ============ */
+function buildFlashcards() {
+  let html = '';
+  FLASHCARDS.forEach((f, i) => {
+    html += '<div class="fc-card" id="fc-' + i + '" onclick="flipCard(' + i + ')">' +
+      '<div class="fc-inner">' +
+        '<div class="fc-front">' + f.en + '<div class="hint">🇬🇧 Перекладай українською</div></div>' +
+        '<div class="fc-back">' + f.ua + '</div>' +
+      '</div></div>';
+  });
+  document.getElementById('fcGrid').innerHTML = html;
+}
+function flipCard(i) { document.getElementById('fc-' + i).classList.toggle('flipped'); markDone(8); }
+let allFlipped = false;
+function flipAll() {
+  allFlipped = !allFlipped;
+  document.querySelectorAll('.fc-card').forEach(c => c.classList.toggle('flipped', allFlipped));
+}
+
+/* ============ SPEAKING ============ */
+function buildSpeaking() {
+  let spSlides = '';
+  SPEAKING.forEach((d, i) => {
+    let lines = '';
+    d.lines.forEach(ln => {
+      if (ln.blank) {
+        lines += '<div class="sp-line"><span class="sp-role">' + ln.role + ':</span>' +
+          '<span class="sp-blank">відповідає про себе англійською...</span></div>';
+      } else {
+        lines += '<div class="sp-line"><span class="sp-role">' + ln.role + ':</span> ' + ln.text + '</div>';
+      }
+    });
+    spSlides += '<div class="car-slide' + (i === 0 ? ' active' : '') + '" id="spslide-' + i + '">' +
+      '<div style="font-weight:800;margin-bottom:10px;color:var(--violet);">' + d.title + '</div>' +
+      (d.note ? '<div class="sp-interview-note">' + d.note + '</div>' : '') +
+      lines + '</div>';
+  });
+  document.getElementById('speakingSlides').innerHTML = spSlides;
+}
+
+/* ============ CAROUSEL ============ */
+function carNav(id, dir) {
+  carState[id] = Math.max(0, Math.min(3, carState[id] + dir));
+  const idx = carState[id];
+  const prefix = id === 'r' ? 'rslide' : 'spslide';
+  document.querySelectorAll('[id^="' + prefix + '"]').forEach((s, i) => s.classList.toggle('active', i === idx));
+  document.getElementById(id + 'prev').disabled = idx === 0;
+  document.getElementById(id + 'next').disabled = idx === 3;
+  document.getElementById(id + 'counter').textContent = (idx + 1) + ' / 4';
+  if (id === 'r' && idx === 3) markDone(7);
+  if (id === 'sp' && idx === 3) markDone(9);
+}
+
+/* ============ RESULTS ============ */
+function updateFab() {
+  let g = 0, t = 0;
+  Object.values(quizScores).forEach(s => { if (s) { g += s.got; t += s.total; } });
+  Object.values(puzzleScores).forEach(s => { if (s) { g += s.got; t += s.total; } });
+  document.getElementById('fabScore').textContent = g + '/' + t;
+}
+
+function openResults() {
+  let rows = '', g = 0, t = 0;
+  for (let i = 1; i <= 4; i++) {
+    const s = quizScores['q' + i];
+    const v = s ? s.got + '/' + s.total : '—';
+    if (s) { g += s.got; t += s.total; }
+    rows += '<tr><td>Quiz ' + i + '</td><td>' + v + '</td></tr>';
+  }
+  for (let i = 1; i <= 4; i++) {
+    const s = puzzleScores['p' + i];
+    const v = s ? s.got + '/' + s.total : '—';
+    if (s) { g += s.got; t += s.total; }
+    rows += '<tr><td>Puzzle ' + i + '</td><td>' + v + '</td></tr>';
+  }
+  document.getElementById('resultsBody').innerHTML = rows;
+  const pct = t > 0 ? Math.round(g / t * 100) : 0;
+  const medal = pct >= 90 ? '🏆' : pct >= 70 ? '🌟' : pct >= 50 ? '👍' : '💪';
+  document.getElementById('resultsTotal').textContent = medal + ' ' + g + '/' + t + ' — ' + pct + '%';
+
+  let txt = 'A2-02 Present Simple (3rd Person)\n' + '─'.repeat(28) + '\n';
+  for (let i = 1; i <= 4; i++) { const s = quizScores['q' + i]; txt += 'Quiz ' + i + ': ' + (s ? s.got + '/' + s.total : '—') + '\n'; }
+  for (let i = 1; i <= 4; i++) { const s = puzzleScores['p' + i]; txt += 'Puzzle ' + i + ': ' + (s ? s.got + '/' + s.total : '—') + '\n'; }
+  txt += '─'.repeat(28) + '\nЗагалом: ' + g + '/' + t + ' (' + pct + '%) ' + medal;
+  document.getElementById('resultsText').value = txt;
+  document.getElementById('resultsModal').classList.add('open');
+}
+function closeResults() { document.getElementById('resultsModal').classList.remove('open'); }
+function copyResults() {
+  const ta = document.getElementById('resultsText');
+  ta.select();
+  document.execCommand('copy');
+}
+
+/* ============ INIT ============ */
+buildStepper();
+buildVocab();
+buildConvs();
+buildPuzzles();
+buildReading();
+buildFlashcards();
+buildSpeaking();
+</script>
+</body>
+</html>
